@@ -25,7 +25,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./week-27.2
           file: ./week-27.2/docker/Dockerfile.ws
           push: true
           tags: |
