@@ -1,5 +1,6 @@
 name: Continuous Deployment (Prod) (Frontend)
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
@@ -7,6 +8,7 @@ on:
       - 'packages/db/**'
       - 'docker/Dockerfile.frontend'
       - '.github/workflows/frontend-deploy.yml'
+      - '.github/frontend-trigger'
 
 jobs:
   build:
