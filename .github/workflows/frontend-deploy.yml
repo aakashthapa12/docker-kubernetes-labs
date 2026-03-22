@@ -28,6 +28,7 @@ jobs:
           context: ./week-27.2
           file: ./week-27.2/docker/Dockerfile.frontend
           push: true
+          no-cache: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/user-app-frontend:${{ github.sha }}
             ${{ secrets.DOCKERHUB_USERNAME }}/user-app-frontend:latest
