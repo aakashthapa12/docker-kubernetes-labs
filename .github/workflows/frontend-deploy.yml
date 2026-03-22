@@ -27,8 +27,6 @@ jobs:
         with:
           context: ./week-27.2
           file: ./week-27.2/docker/Dockerfile.frontend
-          build-args: |
-            DB_URL=${{ secrets.DATABASE_URL }}
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/user-app-frontend:${{ github.sha }}
