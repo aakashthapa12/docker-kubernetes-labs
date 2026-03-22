@@ -1,16 +1,17 @@
 FROM oven/bun:1
 
-ARG DB_URL
-
 WORKDIR /usr/src/app
 
 COPY . .
 
-RUN bun install
+RUN bun install --frozen-lockfile
 
 RUN bun run generate:db
-RUN DB_URL=$DB_URL bunx turbo build --filter=web...
+
+# Avoid DB access at image build time (Next.js prerender can trigger Prisma calls)
+ENV SKIP_DB=1
+RUN cd apps/web && bun run build
 
 EXPOSE 3000
 
-CMD ["bun", "start:frontend"]
+CMD ["sh", "-c", "cd apps/web && bun run start"]
