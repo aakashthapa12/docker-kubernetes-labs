@@ -12,6 +12,7 @@ RUN bun install --frozen-lockfile
 RUN bun run generate:db
 
 # Build Next.js frontend
+ENV SKIP_DB=1
 RUN cd apps/web && bun run build
 
 EXPOSE 3000
