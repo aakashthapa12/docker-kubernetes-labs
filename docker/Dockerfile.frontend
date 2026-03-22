@@ -1,7 +1,5 @@
 FROM oven/bun:1
 
-ARG DB_URL
-
 WORKDIR /usr/src/app
 
 # Copy everything from the context (which is ./week-27.2)
