@@ -1,0 +1,33 @@
+name: Continuous Deployment (Prod) (WebSocket)
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/websocket/**'
+      - 'packages/db/**'
+      - 'docker/Dockerfile.ws'
+      - '.github/workflows/websocket-deploy.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./week-27.2/docker/Dockerfile.ws
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/user-app-websocket:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/user-app-websocket:latest
