@@ -2,8 +2,8 @@ FROM oven/bun:1
 
 WORKDIR /usr/src/app
 
-# Copy entire week-27.2 directory structure
-COPY week-27.2/ ./
+# Copy everything from the context (which is ./week-27.2)
+COPY . .
 
 # Install dependencies
 RUN bun install --frozen-lockfile
