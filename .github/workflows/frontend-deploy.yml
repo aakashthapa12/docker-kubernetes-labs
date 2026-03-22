@@ -23,6 +23,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Debug - show Dockerfile.frontend used
+        run: |
+          echo "PWD: $(pwd)"
+          echo "--- ./week-27.2/docker/Dockerfile.frontend ---"
+          sed -n '1,120p' ./week-27.2/docker/Dockerfile.frontend
+          echo "--- sanity check ---"
+          grep -n "cd apps/web && bun run build" ./week-27.2/docker/Dockerfile.frontend
+          if grep -q "bunx turbo build" ./week-27.2/docker/Dockerfile.frontend; then
+            echo "ERROR: Dockerfile.frontend still contains bunx turbo build" >&2
+            exit 1
+          fi
       
       - name: Build and push
         uses: docker/build-push-action@v4
