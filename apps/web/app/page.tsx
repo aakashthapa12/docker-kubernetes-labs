@@ -1,17 +1,36 @@
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+'use client';
 
-async function getUsers() {
-  // Avoid hitting Postgres during Docker image build/prerender.
-  // Next.js will run this at request-time in production.
-  if (process.env.NEXT_PHASE === "phase-production-build") return [];
-  if (process.env.SKIP_DB === "1") return [];
+import { useEffect, useState } from 'react';
 
-  const { default: prisma } = await import("db");
-  return prisma.user.findMany();
-}
+export default function Home() {
+  const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function Home() {
-  const users = await getUsers();
-  return <pre>{JSON.stringify(users, null, 2)}</pre>;
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        // In production, this would call an API endpoint that queries the DB
+        // For now, just show a placeholder
+        setUsers([]);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUsers();
+  }, []);
+
+  return (
+    <div>
+      <h1>Users</h1>
+      {loading ? (
+        <p>Loading...</p>
+      ) : users.length === 0 ? (
+        <p>No users found</p>
+      ) : (
+        <pre>{JSON.stringify(users, null, 2)}</pre>
+      )}
+    </div>
+  );
 }
