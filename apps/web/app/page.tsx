@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Users</h1>
+      <h1>Users (Frontend Ready)</h1>
       {loading ? (
         <p>Loading...</p>
       ) : users.length === 0 ? (
