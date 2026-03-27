@@ -24,18 +24,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Verify build context
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Files in current directory:"
-          ls -la | head -20
-          echo ""
-          echo "Dockerfile location:"
-          ls -la ./docker/Dockerfile.frontend
-          echo ""
-          echo "package.json location:"
-          ls -la ./package.json
-      
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
