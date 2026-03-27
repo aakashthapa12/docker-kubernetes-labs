@@ -23,18 +23,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Debug - show Dockerfile.frontend used
-        run: |
-          echo "PWD: $(pwd)"
-          echo "--- ./docker/Dockerfile.frontend ---"
-          sed -n '1,120p' ./docker/Dockerfile.frontend
-          echo "--- sanity check: should use next dev, not next build ---"
-          grep -n "bun run dev" ./docker/Dockerfile.frontend || exit 0
-          if grep -q "next build" ./docker/Dockerfile.frontend; then
-            echo "ERROR: Dockerfile.frontend still contains next build" >&2
-            exit 1
-          fi
       
       - name: Build and push
         uses: docker/build-push-action@v4
