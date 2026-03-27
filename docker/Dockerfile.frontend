@@ -2,7 +2,7 @@ FROM oven/bun:1
 
 WORKDIR /usr/src/app
 
-# Copy everything from the context (which is ./week-27.2)
+# Copy everything from the context (which is repo root)
 COPY . .
 
 # Install dependencies
@@ -11,10 +11,7 @@ RUN bun install --frozen-lockfile
 # Generate Prisma client
 RUN bun run generate:db
 
-# Build Next.js frontend
-ENV SKIP_DB=1
-RUN cd apps/web && bun run build
-
+# Run Next.js in development mode (no build required)
 EXPOSE 3000
 
-CMD ["sh", "-c", "cd apps/web && bun run start"]
+CMD ["sh", "-c", "cd apps/web && bun run dev"]
